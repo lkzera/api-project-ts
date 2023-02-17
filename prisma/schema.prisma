@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  name          String
+  email         String         @unique
+  password      String
+  active        Boolean        @default(true)
+  group         Group?         @relation("group", fields: [group_id], references: [id])
+  group_id      Int?
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  users_company UsersCompany[] @relation("user")
+
+  @@map("tb_users")
+}
+
+model Company {
+  id                  Int            @id @default(autoincrement())
+  code                String         @unique
+  corporate_name      String         @unique
+  fantasy_name        String?
+  itr                 String?
+  registration_number String?
+  address             String?
+  district            String?
+  state               String?
+  zip_code            String?
+  users_company       UsersCompany[] @relation("company")
+  created_at          DateTime       @default(now())
+  updated_at          DateTime       @updatedAt
+
+  @@map("tb_companies")
+}
+
+model UsersCompany {
+  id         Int     @id @default(autoincrement())
+  user       User    @relation("user", fields: [user_id], references: [id])
+  user_id    Int
+  company    Company @relation("company", fields: [company_id], references: [id])
+  company_id Int
+
+  @@map("tb_users_companies")
+}
+
+model Group {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  users      User[]   @relation("group")
+
+  @@map("tb_groups")
+}
