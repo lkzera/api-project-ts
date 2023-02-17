@@ -1,3 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 
-export const prisma = new PrismaClient({log: ['query']});
+let optionsDatabase = {}
+
+if (process.env.DATABBASE_LOGGING == 'true') {
+    optionsDatabase = {
+        log: ['query']
+    }
+}
+
+
+export const prisma = new PrismaClient(optionsDatabase);

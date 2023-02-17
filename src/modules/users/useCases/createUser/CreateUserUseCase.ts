@@ -26,6 +26,8 @@ export class CreateUserUseCase {
             }
         });
 
+        create.password = 'PASSWORD';
+
         return create;
     }
 }

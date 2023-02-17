@@ -10,7 +10,7 @@ export class CreateUserController {
 
         return res.status(201).send({
             success: true,
-            message: '',
+            message: 'user added successfully!',
             result: result
         });
     }
