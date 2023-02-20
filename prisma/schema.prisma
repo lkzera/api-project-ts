@@ -24,8 +24,8 @@ model User {
 
 model Company {
   id                  Int            @id @default(autoincrement())
-  code                String         @unique
-  corporate_name      String         @unique
+  code                String
+  corporate_name      String
   fantasy_name        String?
   itr                 String?
   registration_number String?
@@ -38,6 +38,7 @@ model Company {
   updated_at          DateTime       @updatedAt
 
   @@map("tb_companies")
+  @@unique([code, corporate_name])
 }
 
 model UsersCompany {
